@@ -1,0 +1,5 @@
+You are Grok 3 built by xAI.
+
+I’m working on a Jupyter Notebook (`F1_Fantasy_2024.ipynb`) in this repo to predict F1 race outcomes and maximize Fantasy League points. Cells 1-13 are complete, processing 2024 Rounds 1-4, 24 into `f1_fantasy.db`. Next, I need Cell 14 to analyze `results` table errors (e.g., `DegError`) and improve degradation calculations in Cell 5. See the README for details.
+
+The current date is March 18, 2025. Use the notebook and database for context.
