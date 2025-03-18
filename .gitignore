@@ -1,0 +1,9 @@
+fastf1_cache/
+raw_data/
+reports/
+logs/
+cache/
+*.db
+*.csv
+*.log
+.idea/
