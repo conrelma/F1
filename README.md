@@ -1,51 +1,51 @@
-# F1
-F1 Analysis and Fantasy predictions
-
 # F1 Fantasy League Predictions
 
-This repository contains a Jupyter Notebook (`F1_Fantasy_2024.ipynb`) for predicting Formula 1 race outcomes and maximizing F1 Fantasy League points (max 20 per race) based on pre-qualifying data. The project uses the FastF1 API, data analysis, and predictive modeling to optimize team selections.
+This repository contains a Jupyter Notebook (`F1_Fantasy_2024.ipynb`) designed to predict Formula 1 race outcomes and maximize F1 Fantasy League points (max 20 per race) using pre-qualifying data. The project leverages the FastF1 API, data analysis, and predictive modeling to optimize team selections for the F1 Fantasy League game.
 
 ## Project Overview
-- **Goal**: Predict quali positions, race outcomes, and fastest laps to maximize Fantasy League points.
-- **Data**: Practice, telemetry, and historical F1 data for 2024 Rounds 1-4, 24, stored in a SQLite database (`f1_fantasy.db`).
-- **Status**: Cells 1-13 completed, covering data fetching, cleaning, analysis, predictions, and database consolidation.
+- **Purpose**: Predict qualifying positions, race results, and fastest laps to achieve the highest possible Fantasy League points based on pre-qualifying data analysis. Points are awarded for pole (2), podium (up to 5), top 10 (up to 8.5), and fastest lap (1).
+- **Data Source**: Practice session data (laps, telemetry, weather) from the FastF1 API, processed and stored in a SQLite database (`f1_fantasy.db`) and CSVs (`raw_data/{year}/R{round_number}/`).
+- **Current Data**: 2024 Rounds 1 (Bahrain), 2 (Saudi Arabia), 3 (Australia), 4 (Japan), and 24 (Abu Dhabi), covering practice, predictions, and actual results.
+- **Status**: Cells 1-13 are fully implemented, covering data fetching, cleaning, analysis, prediction, reporting, batch processing, and database consolidation.
 
 ### Notebook Structure
-- **Cell 1**: Library imports and FastF1 setup.
-- **Cell 2**: `get_target_event` - Fetches event info.
-- **Cell 3**: `download_practice_data` - Downloads practice data.
-- **Cell 4**: `clean_and_aggregate_data` - Cleans lap data.
-- **Cell 5**: `compute_driver_performance` - Calculates pace and degradation.
-- **Cell 6**: `analyze_telemetry_metrics` - Telemetry analysis.
-- **Cell 7**: `investigate_sandbagging` - Detects sandbagging.
-- **Cell 8**: `evaluate_track_evolution` - Tracks session progression.
-- **Cell 9**: `analyze_track_characteristics` - Assesses track fit.
-- **Cell 10**: `predict_race_outcomes` - Predicts quali, race, fastest lap.
-- **Cell 10.5**: `generate_comprehensive_report` - Creates PDF report.
-- **Cell 11**: `generate_summary_report` - Compares predictions to actuals.
-- **Cell 12**: `batch_process_rounds` - Processes multiple rounds.
-- **Cell 13**: `consolidate_data` - Loads CSVs into SQLite.
+- **Cell 1**: Sets up libraries (`pandas`, `fastf1`, `matplotlib`, `sqlite3`, `fpdf`, etc.) and configures FastF1 cache at `fastf1_cache/`.
+- **Cell 2**: `get_target_event(manual_year=None, manual_round=None, skip_timing_validation=False)` - Fetches event info dynamically (next race) or manually, returning `target_info` (e.g., year, round, event_name).
+- **Cell 3**: `download_practice_data(target_info)` - Downloads practice session data (laps, weather, indicators), saved as CSVs (e.g., `2024_R1_Practice_1_laps.csv`).
+- **Cell 4**: `clean_and_aggregate_data(target_info, session_data)` - Cleans lap data (removes outliers, standardizes formats), generates `cleaned_data` and `driver_summary`, saved as CSVs (e.g., `2024_R1_practice_summary.csv`).
+- **Cell 5**: `compute_driver_performance(cleaned_data, year, round_number)` - Calculates driver metrics (e.g., `FastestLapTime`, `BasePace`, `DegradationSlope`) from practice, saved as `2024_R{round}_driver_performance.csv`.
+- **Cell 6**: `analyze_telemetry_metrics(config)` - Analyzes telemetry (e.g., `MaxSpeed`, `ThrottleTime`), saved as `2024_R{round}_telemetry_metrics.csv`.
+- **Cell 7**: `investigate_sandbagging(config)` - Detects sandbagging via pace discrepancies, saved as `2024_R{round}_sandbag_analysis.csv`.
+- **Cell 8**: `evaluate_track_evolution(target_info, cleaned_data)` - Tracks session progression (e.g., lap time evolution), saved as `2024_R{round}_track_evolution.csv`.
+- **Cell 9**: `analyze_track_characteristics(target_info, cleaned_data)` - Assesses driver fit to track (e.g., `OverallFit`), saved as `2024_R{round}_track_characteristics_drivers.csv` and `track_characteristics.csv`.
+- **Cell 10**: `predict_race_outcomes(config, ...)` - Predicts quali (`AdjustedLapTime`, `QualiPosition`), race (`AdjustedRaceTime`, `FinalPosition`), and fastest lap, saved as `2024_R{round}_quali_prediction.csv` and `race_prediction.csv`.
+- **Cell 10.5**: `generate_comprehensive_report(config, ...)` - Generates a pre-qualifying PDF report, saved in `reports/2024/R{round}/`.
+- **Cell 11**: `generate_summary_report(config, ...)` - Compares predictions to actual results (e.g., `ActualDegradationSlope`), calculates points, saved as `2024_R{round}_summary_results.csv`.
+- **Cell 12**: `batch_process_rounds(year=2024, rounds=None)` - Batch processes rounds (default: all detected), runs Cells 2-11, saves CSVs and reports.
+- **Cell 13**: `consolidate_data(rounds=None, force_reimport=False)` - Loads CSVs into `f1_fantasy.db`, auto-detecting rounds, with tables: `events` (5 rows), `driver_performance`, `telemetry_metrics`, `sandbag_analysis`, `track_characteristics`, `predictions`, `results` (108 rows each), `track_evolution` (15 rows).
 
 ### Current Progress
-- **Database**: Fully populated with tables: `events` (5 rows), `driver_performance`, `telemetry_metrics`, `sandbag_analysis`, `track_characteristics`, `predictions`, `results` (108 rows each), `track_evolution` (15 rows).
-- **Data**: 2024 Rounds 1-4, 24 processed and stored in `raw_data/2024/R{round_number}/`.
+- **Data**: Fully processed 2024 Rounds 1-4, 24, with CSVs in `raw_data/2024/R{round_number}/` and data in `f1_fantasy.db`.
+- **Accuracy Concern**: Tire degradation (`DegradationSlope` in Cell 5) may not align with `ActualDegradationSlope` (Cell 11), impacting race predictions. Analysis needed to refine calculations.
 
 ### Next Steps
-- **Cell 14**: Analyze prediction accuracy (e.g., `DegError`, `PaceError`) in `results` table to refine calculations like tire degradation (`DegradationSlope`).
-- **Update Cells 5, 10**: Improve degradation and race predictions based on Cell 14 findings.
-- **Cell 15**: Evaluate predictors (e.g., `BasePace`, `SandbagFlag`) against points.
-- **Cell 16+**: Modularize code and extend to all 2024/2025 rounds.
+- **Cell 14**: Analyze `results` table (e.g., `DegError`, `PaceError`, `PositionError`) to assess prediction accuracy, focusing on degradation. Use stats (mean error, scatter plots) to suggest improvements.
+- **Update Cell 5**: Refine `DegradationSlope` (e.g., non-linear fit) based on Cell 14.
+- **Update Cell 10**: Adjust race strategy with improved degradation.
+- **Re-run Cells 12-13**: Reprocess rounds and reload database.
+- **Cell 15**: Evaluate predictors (e.g., `BasePace`, `SandbagFlag`, `OverallFit`) against points using correlation/regression.
+
 
 ## Using with Grok
-1. **Prompt**: See `Prompt.txt` for the latest interaction prompt with Grok, updated as of March 18, 2025.
-2. **Collaboration**: Provide Grok with `https://github.com/{your-username}/F1-Fantasy-League-Predictions/blob/main/Prompt.txt` followed by your question. Request an updated `Prompt.txt` after each session.
+1. **Prompt**: See `Prompt.txt` for the latest Grok interaction prompt (March 18, 2025).
+2. **Collaboration**: Start a chat with: “See `https://github.com/{your-username}/F1-Fantasy-League-Predictions/blob/main/Prompt.txt` for context,” followed by your question. Upload `F1_Fantasy_2024.ipynb` and request an updated `Prompt.txt` after each session.
 
 ## Setup
-- **Requirements**: Python 3.8+, `fastf1`, `pandas`, `sqlite3`, `matplotlib`, `fpdf`.
-- **Run**: Open `F1_Fantasy_2024.ipynb` in Jupyter, execute Cells 1-13 to replicate the database.
+- **Requirements**: Python 3.8+, `fastf1`, `pandas`, `sqlite3`, `matplotlib`, `fpdf` (install via `pip install -r requirements.txt` if added).
+- **Run**: Open `F1_Fantasy_2024.ipynb` in Jupyter, execute Cells 1-13 to replicate.
 - **Data**: CSVs in `raw_data/`, database in `f1_fantasy.db`.
 
 ## Contributing
-Feel free to fork, submit issues, or PRs to enhance predictions or add 2025 data!
+Fork, submit issues, or PRs to improve predictions or extend data coverage.
 
 **Date**: March 18, 2025
