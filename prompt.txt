@@ -1,7 +1,40 @@
 You are Grok 3 built by xAI.
 
-This repo (`F1`) contains `F1_Analysis4.ipynb` for predicting F1 race outcomes and maximizing Fantasy League points (max 20) using pre-qualifying data. Cells 1-13 are complete, processing 2024 Rounds 1-6, 24 into `f1_fantasy.db` with tables: `events`, `driver_performance`, `telemetry_metrics`, `sandbag_analysis`, `track_characteristics`, `predictions`, `results` (108 rows each), `track_evolution` . See README for details.
+This GitHub repository (`https://github.com/conrelma/F1`) contains a Jupyter Notebook (`F1_Analysis4.ipynb`) designed to predict Formula 1 race outcomes and maximize F1 Fantasy League points (max 20 per race) using pre-qualifying data. Download and analyze the notebook at `https://github.com/conrelma/F1/blob/main/F1_Analysis4.ipynb` to understand its structure and content. Each step of the project is contained in a numbered cell, where the step number matches the cell number (e.g., Step 13 is Cell 13). Do not expect or rely on prior cell outputs unless explicitly provided; instead, infer the notebook's state from the code and comments.
 
-**Concern**: `DegradationSlope` (Cell 5) may not match `ActualDegradationSlope` (Cell 11), affecting predictions. Next, create Cell 14 to analyze `results` table errors (e.g., `DegError`) and improve calculations in Cells 5 and 10, then re-run Cells 12-13.
+### Current Progress
+- Cells 1-13 are complete, implementing the following:
+  - **Cell 1**: Setup with library imports (pandas, fastf1, matplotlib, sqlite3, fpdf) and FastF1 cache configuration.
+  - **Cell 2**: `get_target_event` function to fetch event info.
+  - **Cell 3**: `download_practice_data` to fetch practice session data.
+  - **Cell 4**: `clean_and_aggregate_data` to clean and summarize lap data.
+  - **Cell 5**: `compute_driver_performance` for driver pace metrics (e.g., DegradationSlope).
+  - **Cell 6**: `analyze_telemetry_metrics` for telemetry analysis.
+  - **Cell 7**: `investigate_sandbagging` to detect sandbagging.
+  - **Cell 8**: `evaluate_track_evolution` for session progression.
+  - **Cell 9**: `analyze_track_characteristics` for track-specific driver fit.
+  - **Cell 10**: `predict_race_outcomes` for quali, race, and fastest lap predictions.
+  - **Cell 10.5**: `generate_comprehensive_report` for a pre-qualifying PDF report.
+  - **Cell 11**: `generate_summary_report` comparing predictions to actuals and calculating points.
+  - **Cell 12**: `batch_process_rounds` to process multiple rounds.
+  - **Cell 13**: `consolidate_data` to load CSVs into `f1_fantasy.db`, completed for 2024 Rounds 1-4, 24.
+- The notebook saves data in `raw_data/{year}/R{round_number}/` and uses a SQLite database (`f1_fantasy.db`) with tables: `events` (5 rows), `driver_performance`, `telemetry_metrics`, `sandbag_analysis`, `track_characteristics`, `predictions`, `results` (108 rows each), `track_evolution` (15 rows).
 
-The current date is March 18, 2025. Use the notebook and database for context.
+### Concern
+The accuracy of tire degradation (`DegradationSlope` in Cell 5) may not match `ActualDegradationSlope` (Cell 11), impacting race predictions. This needs analysis and improvement before evaluating predictors.
+
+### Next Steps/Focus
+- **Cell 14**: Analyze the `results` table in `f1_fantasy.db` (e.g., `DegError`, `PaceError`, `PositionError`) to assess prediction accuracy, focusing on degradation. Use SQLite to query the database, applying statistical methods (e.g., mean error, scatter plots) to suggest improvements for `DegradationSlope`. Reference `DegradationSlope` (Cell 5) and `ActualDegradationSlope` (Cell 11) in the analysis.
+- **Update Cell 5**: Refine `DegradationSlope` calculation (e.g., non-linear fit, session weighting) based on Cell 14 findings.
+- **Update Cell 10**: Adjust race strategy with the improved degradation metric.
+- **Re-run Cells 12-13**: Reprocess rounds and reload the database with updated calculations.
+- **Cell 15**: Evaluate predictors (e.g., `BasePace`, `SandbagFlag`, `OverallFit`) against points using correlation/regression.
+
+### Instructions
+- Analyze `F1_Analysis4.ipynb` to understand the code for Cells 1-13.
+- Do not assume prior outputs; rely on the code and comments to infer the state.
+- For Cell 14, connect to `f1_fantasy.db` (located in the notebook’s directory) using SQLite and query the `results` table to compare `DegradationSlope` and `ActualDegradationSlope`.
+- Start with Cell 14, referencing existing cells as needed (e.g., “Update Cell 5…”).
+- Update this prompt after each session with new progress.
+
+The current date is March 18, 2025. My goal is to maximize Fantasy League points with accurate pre-qualifying predictions. Use the notebook and database for context, and leverage your tools (e.g., web/X search for F1 data) when applicable. Avoid generating images unless I confirm.
