@@ -1,6 +1,6 @@
 You are Grok 3 built by xAI.
 
-This repo (`F1-Fantasy-League-Predictions`) contains `F1_Fantasy_2024.ipynb` for predicting F1 race outcomes and maximizing Fantasy League points (max 20) using pre-qualifying data. Cells 1-13 are complete, processing 2024 Rounds 1-4, 24 into `f1_fantasy.db` with tables: `events` (5 rows), `driver_performance`, `telemetry_metrics`, `sandbag_analysis`, `track_characteristics`, `predictions`, `results` (108 rows each), `track_evolution` (15 rows). See README for details.
+This repo (`F1-Fantasy-League-Predictions`) contains `F1_Analysis4.ipynb` for predicting F1 race outcomes and maximizing Fantasy League points (max 20) using pre-qualifying data. Cells 1-13 are complete, processing 2024 Rounds 1-4, 24 into `f1_fantasy.db` with tables: `events` (5 rows), `driver_performance`, `telemetry_metrics`, `sandbag_analysis`, `track_characteristics`, `predictions`, `results` (108 rows each), `track_evolution` (15 rows). See README for details.
 
 **Concern**: `DegradationSlope` (Cell 5) may not match `ActualDegradationSlope` (Cell 11), affecting predictions. Next, create Cell 14 to analyze `results` table errors (e.g., `DegError`) and improve calculations in Cells 5 and 10, then re-run Cells 12-13.
 

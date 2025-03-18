@@ -1,6 +1,6 @@
 # F1 Fantasy League Predictions
 
-This repository contains a Jupyter Notebook (`F1_Fantasy_2024.ipynb`) designed to predict Formula 1 race outcomes and maximize F1 Fantasy League points (max 20 per race) using pre-qualifying data. The project leverages the FastF1 API, data analysis, and predictive modeling to optimize team selections for the F1 Fantasy League game.
+This repository contains a Jupyter Notebook (`F1_Analysis4.ipynb`) designed to predict Formula 1 race outcomes and maximize F1 Fantasy League points (max 20 per race) using pre-qualifying data. The project leverages the FastF1 API, data analysis, and predictive modeling to optimize team selections for the F1 Fantasy League game.
 
 ## Project Overview
 - **Purpose**: Predict qualifying positions, race results, and fastest laps to achieve the highest possible Fantasy League points based on pre-qualifying data analysis. Points are awarded for pole (2), podium (up to 5), top 10 (up to 8.5), and fastest lap (1).
