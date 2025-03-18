@@ -3,7 +3,13 @@
 This repository contains a Jupyter Notebook (`F1_Analysis4.ipynb`) designed to predict Formula 1 race outcomes and maximize F1 Fantasy League points (max 20 per race) using pre-qualifying data. The project leverages the FastF1 API, data analysis, and predictive modeling to optimize team selections for the F1 Fantasy League game.
 
 ## Project Overview
-- **Purpose**: Predict qualifying positions, race results, and fastest laps to achieve the highest possible Fantasy League points based on pre-qualifying data analysis. Points are awarded for pole (2), podium (up to 5), top 10 (up to 8.5), and fastest lap (1).
+- **Purpose**: Predict qualifying positions, race results, and fastest laps to achieve the highest possible Fantasy League points based on pre-qualifying data analysis. 
+- Points are awarded 
+  - 1pt per finisher in top 10. 
+  - Extra 1pt per exact podium position. 
+  - 2pts podium bonus for picking all three podium finishers (position irrelevant)
+  - Bonus 0.5 pts per exact position outside of podium in top 10
+  - 1pt for correct fastest lap
 - **Data Source**: Practice session data (laps, telemetry, weather) from the FastF1 API, processed and stored in a SQLite database (`f1_fantasy.db`) and CSVs (`raw_data/{year}/R{round_number}/`).
 - **Current Data**: 2024 Rounds 1 (Bahrain), 2 (Saudi Arabia), 3 (Australia), 4 (Japan), and 24 (Abu Dhabi), covering practice, predictions, and actual results.
 - **Status**: Cells 1-13 are fully implemented, covering data fetching, cleaning, analysis, prediction, reporting, batch processing, and database consolidation.
@@ -37,12 +43,12 @@ This repository contains a Jupyter Notebook (`F1_Analysis4.ipynb`) designed to p
 
 
 ## Using with Grok
-1. **Prompt**: See `Prompt.txt` for the latest Grok interaction prompt (March 18, 2025).
-2. **Collaboration**: Start a chat with: “See `https://github.com/{your-username}/F1-Fantasy-League-Predictions/blob/main/Prompt.txt` for context,” followed by your question. Upload `F1_Fantasy_2024.ipynb` and request an updated `Prompt.txt` after each session.
+1. **Prompt**: See `Prompt.txt` for the latest Grok interaction prompt.
+2. **Collaboration**: Start a chat with: “See `https://github.com/conrelma/F1/blob/main/Prompt.txt` for context,” followed by your question. Upload `F1_Analysis4.ipynb` and request an updated `Prompt.txt` after each session.
 
 ## Setup
 - **Requirements**: Python 3.8+, `fastf1`, `pandas`, `sqlite3`, `matplotlib`, `fpdf` (install via `pip install -r requirements.txt` if added).
-- **Run**: Open `F1_Fantasy_2024.ipynb` in Jupyter, execute Cells 1-13 to replicate.
+- **Run**: Open `F1_Analysis4.ipynb` in Jupyter, execute Cells 1-13 to replicate.
 - **Data**: CSVs in `raw_data/`, database in `f1_fantasy.db`.
 
 ## Contributing
